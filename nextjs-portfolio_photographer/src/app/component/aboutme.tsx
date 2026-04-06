@@ -62,10 +62,10 @@ export default function AboutMeSection({ nombre, biografia, imageUrl }: AboutMeP
         
         {/* COLUMNA IZQUIERDA: Texto (Animado) */}
         <div ref={textRef} className="flex-1 space-y-6">
-          <h2 className="text-sm font-normal text-[#B18A12] uppercase tracking-[0.2em]">
+          <h1 className="text-2xl  md:text-2xl font-normal text-[#B18A12] uppercase tracking-[0.2em]">
             Sobre Mí
-          </h2>
-          <h3 className="text-5xl md:text-7xl font-bold leading-tight tracking-tighter">
+          </h1>
+          <h3 className="text-3xl md:text-5xl font-bold leading-tight tracking-tighter">
             Soy {nombre}
           </h3>
           <p className="text-xl text-gray-300 leading-relaxed font-light max-w-xl">

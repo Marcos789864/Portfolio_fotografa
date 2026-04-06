@@ -56,27 +56,27 @@ export default function TrabajosGallery({ initialImages }: { initialImages: Trab
       </div>
 
       {/* 2. GRID EDITORIAL (Irregular) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-        {filteredImages.map((img, index) => (
-          <div 
-            key={img._id} 
-            className={`card-trabajo relative overflow-hidden rounded-xl group ${
-              index % 3 === 0 ? "md:col-span-2 aspect-[16/7]" : "aspect-[4/5]"
-            }`}
-          >
-            <Image
-              src={urlFor(img.imageUrl).width(1200).url()}
-              alt={img.title}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            {/* Overlay sutil al hacer hover */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
+
+      
+      <div className="columns-1 md:columns-2 gap-8 lg:gap-12 space-y-8 lg:space-y-12">
+  {filteredImages.map((img) => (
+    <div 
+      key={img._id} 
+      className="card-trabajo relative overflow-hidden rounded-xl group break-inside-avoid"
+    >
+      <Image
+        src={urlFor(img.imageUrl).width(1200).url()}
+        alt={img.title}
+        width={1200}
+        height={1600} // Next.js lo usará para calcular la proporción inicial
+        className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
               <p className="text-[#B18A12] font-mono text-sm uppercase tracking-widest">{img.title}</p>
             </div>
-          </div>
-        ))}
-      </div>
+    </div>
+  ))}
+</div>
 
       {/* 3. BOTÓN "VER MÁS" */}
       {visibleCount < initialImages.length && (

@@ -3,45 +3,61 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { TextPlugin } from "gsap/TextPlugin"; // <--- NO OLVIDAR
+import { TextPlugin } from "gsap/TextPlugin";
 
-// Registramos el plugin (requerido una vez por aplicación)
 if (typeof window !== "undefined") {
   gsap.registerPlugin(TextPlugin);
 }
 
 interface TypewriterMinimalProps {
-  textoCompleto: string; // El texto largo que quieres mostrar
+  textoCompleto: string;
 }
 
 export default function TypewriterMinimal({ textoCompleto }: TypewriterMinimalProps) {
   const container = useRef(null);
   const textRef = useRef(null);
   const cursorRef = useRef(null);
+  // Ref para la esfera de luz
+  const orbRef = useRef(null);
 
   useGSAP(() => {
+    // --- 1. ANIMACIÓN DE LA ESFERA (Pulse Orgánico de Expansión) ---
+    // Ajustes Senior para que sea natural:
+    // - Duración larga (5s ida y vuelta).
+    // - Animamos 'scale' (escala), no solo desenfoque.
+    // - 'sine.inOut' para una curva de respiración rítmica.
+    gsap.to(orbRef.current, {
+      scale: 1.2,          // Se expande un 20%
+      opacity: 0.12,       // Aumenta el brillo sutilmente
+      duration: 3,         // Más tiempo para que el cambio sea imperceptible
+      repeat: -1,          // Infinito
+      yoyo: true,          // Ida y vuelta
+      ease: "sine.inOut",  // Curva de respiración natural
+    });
+
+    // --- 2. TIMELINE DE ENTRADA (Texto y Cursor) ---
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: container.current,
-        start: "top 80%", // Empieza cuando la sección está cerca de verse
-        toggleActions: "play none none none", // Solo se reproduce una vez
+        start: "top 85%",
+        toggleActions: "play none none none",
       },
     });
 
-    // 1. Animación del texto largo
+    // Revelado del texto: un toque más lento y elegante
     tl.to(textRef.current, {
-      duration: textoCompleto.length * 0.04, // Duración dinámica basada en la longitud
+      duration: textoCompleto.length * 0.07, 
       text: textoCompleto,
-      ease: "none", // Velocidad mecánica constante
+      ease: "none", // Velocidad mecánica constante (estilo máquina)
     });
 
-    // 2. Animación del cursor parpadeante (paralela)
+    // Cursor parpadeante: más lento y sutil (como una respiración)
     gsap.to(cursorRef.current, {
       opacity: 0,
-      repeat: -1, // Infinito
-      yoyo: true, // Va y viene
-      duration: 0.6,
-      ease: "power2.inOut",
+      repeat: -1,
+      yoyo: true,
+      duration: 0.9,
+      ease: "power1.inOut",
     });
 
   }, { scope: container });
@@ -49,17 +65,39 @@ export default function TypewriterMinimal({ textoCompleto }: TypewriterMinimalPr
   return (
     <section 
       ref={container} 
-      className="py-24 w-full mx-auto px-8 my-16 bg-[#0c0c0c] rounded-3xl border border-white/5 shadow-2xl "
+      // py-40 y h-[90vh] aseguran espacio suficiente para que la esfera "flote"
+      className="relative py-40 w-full min-h-[90vh] overflow-hidden flex items-center justify-center my-12"
     >
-      <div className="w-full">
-        <h3 className="text-3xl md:text-5xl lg:text-6xl font-[family-name:var(--font-courier)] font-normal  text-amber-600 leading-[1.3] ttracking-[0.15em]:">
+      
+      {/* LA ESFERA DE LUZ ANIMADA (Estado Inicial) */}
+      <div 
+        ref={orbRef}
+        // h-[50vh] y aspect-square crean un círculo perfecto.
+        // bg-[#B18A12]/8: un toque de ámbar muy suave.
+        // blur-[180px]: bordes extremadamente difusos para naturalidad.
+        className="absolute h-[50vh] aspect-square bg-[#B18A12]/8 blur-[180px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 opacity-05"
+      />
 
-          <span ref={textRef}></span>
+      <div className="relative z-10 text-center max-w-5xl px-8">
+        {/* PEQUEÑO INDICADOR SUPERIOR (Nivel Senior) */}
+        <span className="text-[10px] uppercase tracking-[0.8em] text-[#B18A12]/40 mb-12 block">
+          Manifesto
+        </span>
+
+        <h3 className="text-2xl md:text-5xl font-extralight italic text-gray-100 leading-[1.8] tracking-tight">
+          {/* COMILLAS DECO */}
+          <span className="text-[#B18A12] not-italic serif opacity-30 text-6xl block mb-6">“</span>
           
+          <span ref={textRef} className="inline"></span>
+          
+          {/* CURSOR DE LUZ TIPO LÍNEA */}
           <span 
             ref={cursorRef} 
-            className="inline-block w-[0.6em] h-[1em] bg-amber-600 ml-1 translate-y-[0.15em]"
+            className="inline-block w-[1px] h-[1em] bg-[#B18A12]/80 ml-2 translate-y-[0.1em]"
           ></span>
+
+          {/* COMILLAS DECO */}
+          <span className="text-[#B18A12] not-italic serif opacity-30 text-6xl block mt-6">”</span>
         </h3>
       </div>
     </section>

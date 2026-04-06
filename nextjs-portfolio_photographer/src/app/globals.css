@@ -5,6 +5,12 @@
   --foreground: #171717;
 }
 
+html {
+  /* Refuerzo por si Tailwind no carga a tiempo */
+  scroll-behavior: smooth !important;
+
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -24,3 +30,29 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+    /* 1. Texto blanco (importante para que se lea en el modo oscuro) */
+    -webkit-text-fill-color: #ffffff !important;
+    
+    /* 2. El "Falso Transparente" 
+       Si tu fondo de página es negro (#000000), el bg-white/5 se ve como #0d0d0d.
+       Si tu fondo de página es un gris muy oscuro (#0a0a0a), el bg-white/5 se ve como #141414.
+    */
+    -webkit-box-shadow: 0 0 0px 1000px #0d0d0d inset !important;
+    
+    /* 3. El truco de la transición eterna */
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Opcional: Evitar que el borde cambie a azul en algunos navegadores */
+input:focus, textarea:focus {
+    outline: none !important;
+}
+
+
