@@ -3,17 +3,15 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   try {
     const { nombre, email, mensaje } = await request.json();
-    console.log("Key:", process.env.BREVO_API_KEY ? "Existe" : "FALTA");
-    console.log("Sender Email:", process.env.BREVO_SENDER_EMAIL);
+    const cleanHeaders = new Headers();
+cleanHeaders.append('accept', 'application/json');
+cleanHeaders.append('content-type', 'application/json');
+cleanHeaders.append('api-key', process.env.BREVO_API_KEY as string);
     // Usamos fetch directamente a la API V3 de Brevo
     // Esto es exactamente lo que hace el SDK por detrás, pero sin errores de formato
     const response = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
-      headers: {
-        'accept': 'application/json',
-        'content-type': 'application/json',
-        'api-key': process.env.BREVO_API_KEY as string,
-      },
+      headers: cleanHeaders,
       body: JSON.stringify({
         sender: { 
           name: nombre, 

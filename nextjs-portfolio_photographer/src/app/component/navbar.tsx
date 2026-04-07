@@ -71,27 +71,28 @@ export default function Navbar() {
   ];
 
   return (
-    <nav 
-      ref={containerRef} 
-      className="fixed top-0 left-0 w-full h-24 z-[100] flex justify-center items-center"
-    >
-      <div className="flex gap-16 md:gap-20 items-center px-10 py-3 rounded-full bg-black/20 backdrop-blur-md border border-white/5">
-        {links.map((link) => (
-          <a 
-            key={link.name}
-            href={link.href}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onLeave}
-            // Mantenemos opacity-0 en Tailwind, pero GSAP se encargará de dejarlo en 1
-            className="nav-link relative opacity-0 text-[11px] uppercase tracking-[0.4em] font-light text-[#B18A12] py-2"
-          >
-            {link.name}
-            <span 
-              className="nav-line absolute bottom-0 left-0 w-full h-[1px] bg-white scale-x-0 origin-left" 
-            />
-          </a>
-        ))}
-      </div>
-    </nav>
-  );
+  <nav 
+    ref={containerRef} 
+    className="fixed top-0 left-0 w-full h-20 md:h-24 z-[100] flex justify-center items-center px-4"
+  >
+    {/* gap-6 para móvil, gap-16/20 para desktop */}
+    <div className="flex gap-4 sm:gap-8 md:gap-16 lg:gap-20 items-center px-6 md:px-10 py-3 rounded-full bg-black/40 backdrop-blur-md border border-white/5 w-full max-w-fit overflow-x-auto no-scrollbar">
+      {links.map((link) => (
+        <a 
+          key={link.name}
+          href={link.href}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onLeave}
+          // Bajamos el tracking y el text size en móvil para que entre todo
+          className="nav-link relative opacity-0 text-[9px] md:text-[11px] uppercase tracking-[0.2em] md:tracking-[0.4em] font-light text-[#B18A12] py-2 whitespace-nowrap"
+        >
+          {link.name}
+          <span 
+            className="nav-line absolute bottom-0 left-0 w-full h-[1px] bg-white scale-x-0 origin-left" 
+          />
+        </a>
+      ))}
+    </div>
+  </nav>
+);
 }

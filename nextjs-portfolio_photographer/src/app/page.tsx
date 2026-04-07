@@ -38,20 +38,22 @@ const personImage = await client.fetch(SINGLE_IMAGE_QUERY, { slug: "modelo" });
     <main className="min-h-screen bg-[#0a0a0a] text-white p-[2rem]">
       <Navbar />
       
-  <section className="relative w-full h-[80vh] flex items-center justify-start overflow-hidden rounded-2xl mt-[4rem]">
-        <Image 
-          src={urlFor(singleImage.imageUrl).width(1920).quality(90).url()} 
-          alt={singleImage.title}
-          fill
-          priority
-          className="object-cover z-0"
-        />
+  <section className="relative w-full h-[70vh] md:h-screen overflow-hidden"> 
+  <Image 
+    src={urlFor(singleImage.imageUrl).width(1920).quality(90).url()} 
+    alt={singleImage.title}
+    fill
+    priority
+    // object-center en móvil, object-right o left en desktop si es necesario
+    className="object-cover object-center z-0"
+    sizes="100vw"
+  />
 
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/20 to-transparent z-10"></div>
+  {/* Gradiente ajustado para móvil (de arriba hacia abajo en vez de lateral si prefieres) */}
+  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/90 md:bg-gradient-to-r md:from-black/90 md:via-black/20 md:to-transparent z-10"></div>
 
-        <HeroUI  
-        />
-      </section>
+  <HeroUI />
+</section>
       <TypewriterSection 
         textoCompleto="La luz no solo ilumina, sino que también revela la esencia de cada momento capturado." 
       />
